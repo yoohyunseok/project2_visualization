@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>마약 연예인 자숙기간 시각화</title>
+<style>
+  body { background:transparent; margin:0; padding:40px 20px; min-height:100vh; box-sizing:border-box; display:flex; justify-content:center; align-items:center; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif; }
+  .viz-container { width:100%; max-width:1150px; }
+</style>
+</head>
+<body>
+<div class="viz-container">
+<h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">마약 연예인 자숙기간, 평균선 포함, 미복귀자는 각 색상의 점선으로 표시</h2>
+<div id="barWrap" style="position: relative; overflow-x: visible; display:flex; justify-content:center;">
+  <div id="barList" style="min-width: 820px; position: relative;"></div>
+  <div id="tip" style="position: absolute; display: none; pointer-events: none; background: #2c2c2a; border: 0.5px solid #6a695f; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #ffffff; white-space: nowrap; z-index: 10; line-height: 1.8;"></div>
+</div>
+<script>
+function fmtYM(dur) {
+  const totalMonths = Math.round(dur * 12);
+  const yy = Math.floor(totalMonths / 12);
+  const mm = totalMonths % 12;
+  return yy + '년 ' + mm + '개월';
+}
+function ym(dateStr) {
+  if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+  const parts = dateStr.split('-');
+  return parts[0] + '.' + parts[1];
+}
+function parseJailDates(jailNote) {
+  if (!jailNote) return ['없음', '없음'];
+  const found = jailNote.match(/\d{4}\.\d{2}/g);
+  if (!found || found.length < 2) return ['없음', '없음'];
+  return [found[0], found[1]];
+}
+const sentenceLabel = {'벌금형':'벌금형', '집행유예':'징역형 집행유예', '징역형':'징역형(구속)'};
+
+const rows = [
+  {name:'가인', group:'벌금형', segs:[[2.98,'g']], dashColor:null, start:'2021-07-01', end:'2024-06-24'},
+  {name:'하정우', group:'벌금형', segs:[[2.56,'g']], dashColor:null, start:'2020-02-18', end:'2022-09-09'},
+  {name:'최창엽', group:'집행유예', segs:[[9.76,'g']], dashColor:'#eda100', start:'2016-10-08', end:'미복귀'},
+  {name:'탑(최승현)', group:'집행유예', segs:[[7.58,'g']], dashColor:null, start:'2017-06-01', end:'2024-12-26'},
+  {name:'기주봉', group:'집행유예', segs:[[0.60,'g']], dashColor:null, start:'2017-06-12', end:'2018-01-18'},
+  {name:'정석원', group:'집행유예', segs:[[0.96,'g']], dashColor:null, start:'2018-02-09', end:'2019-01-25'},
+  {name:'씨잼', group:'집행유예', segs:[[0.54,'g']], dashColor:null, start:'2018-05-28', end:'2018-12-12'},
+  {name:'로버트 할리', group:'집행유예', segs:[[7.26,'g']], dashColor:'#eda100', start:'2019-04-09', end:'미복귀'},
+  {name:'박유천', group:'집행유예', segs:[[1.58,'g']], dashColor:null, start:'2019-04-24', end:'2020-11-19'},
+  {name:'비아이', group:'집행유예', segs:[[1.86,'g']], dashColor:null, start:'2019-06-12', end:'2021-04-20'},
+  {name:'정일훈', group:'집행유예', segs:[[3.40,'free','#eda100'],[0.52,'jail','#f8d9a0']], dashColor:null, start:'2020-12-21', end:'2024-11-21', jailNote:'구속 2021.06~석방(집행유예) 2021.12'},
+  {name:'휘성', group:'집행유예', segs:[[1.02,'g']], dashColor:null, start:'2020-03-26', end:'2021-04-03'},
+  {name:'킬라그램', group:'집행유예', segs:[[5.36,'g']], dashColor:'#eda100', start:'2021-03-01', end:'미복귀'},
+  {name:'안지석', group:'집행유예', segs:[[3.45,'g']], dashColor:'#eda100', start:'2023-01-27', end:'미복귀'},
+  {name:'서민재(서은우)', group:'집행유예', segs:[[3.87,'g']], dashColor:'#eda100', start:'2022-08-26', end:'미복귀'},
+  {name:'남태현', group:'집행유예', segs:[[3.87,'g']], dashColor:'#eda100', start:'2022-08-26', end:'미복귀'},
+  {name:'유아인', group:'집행유예', segs:[[0.72,'g']], dashColor:null, start:'2023-08-09', end:'2024-04-26'},
+  {name:'식케이', group:'집행유예', segs:[[2.20,'g']], dashColor:'#eda100', start:'2024-04-29', end:'미복귀'},
+  {name:'돈스파이크', group:'징역형', segs:[[2.04,'free'],[1.75,'jail']], dashColor:'#e34948', start:'2022-09-27', end:'미복귀', jailNote:'구속 2023.06~만기출소 2025.03'},
+  {name:'에이미', group:'징역형', segs:[[2.45,'free'],[2.42,'jail']], dashColor:'#e34948', start:'2021-08-27', end:'미복귀', jailNote:'구속 2022.03~출소 2024.08'},
+  {name:'엄상미', group:'징역형', segs:[[3.52,'free'],[0.60,'jail']], dashColor:'#e34948', start:'2022-05-26', end:'미복귀', jailNote:'구속·출소 2022.05~2023.01'},
+  {name:'윤철종', group:'비공개/미정', segs:[[8.98,'g']], dashColor:'#888780', start:'2017-07-18', end:'미복귀', sentenceOverride:'비공개'},
+  {name:'김바다', group:'비공개/미정', segs:[[0.34,'g']], dashColor:'#888780', start:'2026-03-09', end:'미복귀', sentenceOverride:'미정'}
+];
+const jailColor = {'free':'#e34948','jail':'#f7c1c1'};
+const groupColor = {'벌금형':'#2a78d6','집행유예':'#eda100','징역형':null,'비공개/미정':'#888780'};
+const squareEndGroups = ['집행유예','비공개/미정'];
+const pxPerYear = 55;
+const axisMaxYear = 10;
+const axisWidth = axisMaxYear * pxPerYear;
+const labelW = 140, gapW = 14;
+const avgDur = 2.211;
+let html = '';
+
+rows.forEach((r) => {
+  const total = r.segs.reduce((a, s) => a + s[0], 0);
+  const [arrest, release] = parseJailDates(r.jailNote);
+  const sentence = r.sentenceOverride || sentenceLabel[r.group];
+  const returnText = r.end === '미복귀' ? '미확인' : ym(r.end);
+  let info = '최초보도: ' + ym(r.start) + '&lt;br&gt;구속일자: ' + arrest + '&lt;br&gt;출소일: ' + release +
+    '&lt;br&gt;복귀: ' + returnText + '&lt;br&gt;형량: ' + sentence;
+  let barEndPx = 0;
+  const squareEnd = r.dashColor && squareEndGroups.includes(r.group);
+  html += '<div style="display:flex; align-items:center; gap:14px; padding:8px 0;">';
+  html += '<div style="width:140px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">' + r.name + '</div>';
+  html += '<div style="display:flex; align-items:center; height:32px;">';
+  html += '<div class="bar" data-name="' + r.name + '" data-info="' + info + '" style="cursor:pointer; display:flex; height:32px; align-items:center;">';
+  r.segs.forEach((seg, si) => {
+    if (seg[0] <= 0) return;
+    const w = Math.max(seg[0] * pxPerYear, 4);
+    barEndPx += w;
+    const isFirst = si === 0 || r.segs.slice(0, si).every(s => s[0] <= 0);
+    const isLast = si === r.segs.length - 1;
+    const leftR = isFirst ? '6px' : '0';
+    const rightR = (isLast && !squareEnd) ? '6px' : '0';
+    const radius = leftR + ' ' + rightR + ' ' + rightR + ' ' + leftR;
+    const color = seg[2] || (seg[1] === 'g' ? groupColor[r.group] : jailColor[seg[1]]);
+    html += '<div style="width:' + w.toFixed(0) + 'px; height:32px; background:' + color + '; border-radius:' + radius + '; margin-right:1px;"></div>';
+  });
+  if (r.dashColor) {
+    const dashW = Math.max(axisWidth - barEndPx, 0);
+    html += '<div style="width:' + dashW.toFixed(0) + 'px; height:32px; position:relative;">';
+    html += '<div style="position:absolute; top:0; left:0; right:0; border-top:2px dashed ' + r.dashColor + ';"></div>';
+    html += '<div style="position:absolute; bottom:0; left:0; right:0; border-bottom:2px dashed ' + r.dashColor + ';"></div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  html += '<span style="font-size:15px; color:#c3c2b7; margin-left:10px;">' + fmtYM(total) + (r.dashColor ? '~' : '') + '</span>';
+  html += '</div></div>';
+});
+
+function axisRow(maxYear) {
+  let s = '<div style="display:flex; align-items:center; gap:14px; padding:10px 0 2px; border-top: 0.5px solid #6a695f; margin-top: 8px;">';
+  s += '<div style="width:140px; flex-shrink:0;"></div>';
+  s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 20) + 'px;">';
+  for (let yr = 0; yr <= maxYear; yr += 2) {
+    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#a8a6a0; white-space:nowrap;">' + yr + '년</span>';
+  }
+  s += '</div></div>';
+  return s;
+}
+
+const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
+const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:0; border-left:2px dashed #ffffff; opacity:0.9; pointer-events:none;"></div>';
+
+document.getElementById('barList').innerHTML = avgLine + html + axisRow(axisMaxYear);
+
+const tip = document.getElementById('tip');
+const wrap = document.getElementById('barWrap');
+document.querySelectorAll('.bar').forEach(function(el){
+  el.addEventListener('mouseenter', function(){
+    el.style.opacity = '0.75';
+    tip.innerHTML = el.getAttribute('data-name') + '<br>' + el.getAttribute('data-info');
+    tip.style.display = 'block';
+  });
+  el.addEventListener('mousemove', function(e){
+    const rect = wrap.getBoundingClientRect();
+    tip.style.left = (e.clientX - rect.left + 14) + 'px';
+    tip.style.top = (e.clientY - rect.top - 10) + 'px';
+  });
+  el.addEventListener('mouseleave', function(){
+    el.style.opacity = '1';
+    tip.style.display = 'none';
+  });
+});
+</script>
+</div>
+</body>
+</html>
