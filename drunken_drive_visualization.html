@@ -113,14 +113,16 @@ function axisRow(maxYear) {
 // 평균 자숙기간 = 복귀완료자(사망·미복귀 제외)의 수감(jail) 기간을 뺀 자숙기간 평균
 // - simpleRows(벌금형/집행유예)는 수감 없음 → dur 그대로, 단 deathTag 제외
 // - prisonRows는 복귀완료(dashColor 없음)만 포함하고 free 세그먼트만 합산(jail 제외)
+// - 노엘은 1차·2차를 각각 세지 않고, 두 자숙기간을 평균낸 대푯값(1년 2개월)을 한 명으로 반영
 const avgParts = [];
-simpleRows.forEach(r => { if (!r.deathTag) avgParts.push(r.dur); });
+simpleRows.forEach(r => { if (!r.deathTag && r.name !== '노엘(1차)') avgParts.push(r.dur); });
 prisonRows.forEach(r => {
-  if (!r.dashColor) {
+  if (!r.dashColor && r.name !== '노엘(2차)') {
     const nonJail = r.segs.reduce((a, s) => a + (s[1] === 'jail' ? 0 : s[0]), 0);
     avgParts.push(nonJail);
   }
 });
+avgParts.push(14 / 12); // 노엘 대푯값: 1년 2개월
 const avgDur = avgParts.reduce((a, v) => a + v, 0) / avgParts.length;
 
 const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
