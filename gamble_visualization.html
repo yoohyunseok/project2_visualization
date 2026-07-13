@@ -13,34 +13,34 @@
 <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;">도박 연예인 자숙기간, 평균선 포함, 어두운 배경용</h2>
 <div id="barWrap" style="position: relative; overflow-x: auto; display:flex; justify-content:center;">
   <div id="barList" style="min-width: 1050px; position: relative;"></div>
-  <div id="tip" style="position: absolute; display: none; pointer-events: none; background: #2c2c2a; border: 0.5px solid #6a695f; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #ffffff; white-space: nowrap; z-index: 10; line-height: 1.8;"></div>
 </div>
+<div id="tip" style="position: fixed; display: none; pointer-events: none; background: #2c2c2a; border: 0.5px solid #6a695f; border-radius: 8px; padding: 10px 14px; font-size: 14px; color: #ffffff; white-space: nowrap; z-index: 1000; line-height: 1.8;"></div>
 <script>
 // group 1: 벌금형/비구속, 복귀 완료
-const group1Complete = [];
-// group 1: 벌금형/비구속, 복귀 미확인(진행중)
-const group1Ongoing = [
-  {name:'김형인', dur:5.815195071868583, start:'2020.09', arrest:'없음', release:'없음', end:'미확인', sentence:'벌금형',
+const group1Complete = [
+  {name:'김형인', dur:0.9828884325804244, start:'2020.09.15', arrest:'없음', release:'없음', end:'2021.09.09', sentence:'벌금형',
    note:''}
 ];
+// group 1: 벌금형/비구속, 복귀 미확인(진행중)
+const group1Ongoing = [];
 
 // group 2: 징역형 집행유예 (선고만 있고 실제 수감 없음), 복귀 완료
 const group2Complete = [
-  {name:'슈', dur:2.1820670773442847, start:'2018.08', arrest:'없음', release:'없음', end:'2020.10.07', sentence:'징역형 집행유예',
+  {name:'슈', dur:2.1820670773442847, start:'2018.08.02', arrest:'없음', release:'없음', end:'2020.10.07', sentence:'징역형 집행유예',
    note:'일본 발매로 활동 재개'}
 ];
 // group 2, 복귀 미확인
 const group2Ongoing = [
-  {name:'최재욱', dur:5.812457221081451, start:'2020.09', arrest:'없음', release:'없음', end:'미확인', sentence:'징역형 집행유예',
+  {name:'최재욱', dur:5.820670773442847, start:'2020.09.16', arrest:'없음', release:'없음', end:'미확인', sentence:'징역형 집행유예',
    note:''}
 ];
 
 // group 3: 징역형(구속) — 구속기간(선고 형량 기준, 0점부터 시작) + 자유기간 + 복귀 미확인 시 점선 연장
 const group3Prison = [
-  {name:'승리', free:2.4503764544832305, jail:1.5, start:'2019.03', arrest:'2021.08', release:'2023.02', end:'미확인', sentence:'징역형',
+  {name:'승리', free:2.4503764544832305, jail:1.4948665297741273, start:'2019.03', arrest:'2021.08.12', release:'2023.02.09', end:'미확인', sentence:'징역형',
    note:''},
-  {name:'정진우', free:0.0, jail:1.0, start:'2016.11', arrest:'2016.11', release:'2018(추정)', end:'미확인', sentence:'징역형',
-   note:''}
+  {name:'정진우', free:0.0, jail:0.999315537303217, freeAfter:1.9958932238192868, ongoing:false, start:'2016.11.15', arrest:'2016.11.01', release:'2017.11(추정)', end:'2019.11.14', sentence:'징역형',
+   note:'본인 유튜브로 보컬 트레이닝 시작하며 복귀'}
 ];
 
 // group 4: 형량 미공개 (윤학, 성제 — 동일 인물군, 숫자는 동일하게 각각 표시, 복귀 완료)
@@ -57,7 +57,7 @@ const pxPerYear = 105;
 const axisMaxYear = 7;
 const axisWidth = axisMaxYear * pxPerYear;
 const labelW = 125, gapW = 14;
-const avgDur = 3.4264202600958247;
+const avgDur = 3.1003422313483915;
 
 function fmtYM(y) {
   const totalMonths = Math.round(y * 12);
@@ -79,7 +79,7 @@ function tipInfo(r, extra) {
 function renderSimpleRow(r, color, ongoing) {
   const w = Math.max(r.dur * pxPerYear, 6);
   let s = '<div style="display:flex; align-items:center; gap:14px; padding:8px 0;">';
-  s += '<div style="width:125px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">' + r.name + '</div>';
+  s += '<div style="width:125px; flex-shrink:0; font-size:15px; color:#f5f5f2; text-align:right; font-weight:500;">' + r.name + '</div>';
   s += '<div style="display:flex; align-items:center; height:32px;">';
   s += '<div class="bar" data-name="' + r.name + '" data-info="' + tipInfo(r) + '" style="cursor:pointer; width:' + w.toFixed(0) + 'px; height:32px; background:' + color + '; border-radius:' + (ongoing ? '6px 0 0 6px' : '6px') + ';"></div>';
   if (ongoing) {
@@ -90,7 +90,7 @@ function renderSimpleRow(r, color, ongoing) {
     s += '</div>';
   }
   s += '</div>';
-  s += '<span style="font-size:15px; color:#c3c2b7; margin-left:10px;">' + fmtYM(r.dur) + (ongoing ? '~' : '') + '</span>';
+  s += '<span style="font-size:15px; color:#e8e7e0; margin-left:10px;">' + fmtYM(r.dur) + (ongoing ? '~' : '') + '</span>';
   s += '</div>';
   return s;
 }
@@ -98,29 +98,33 @@ function renderSimpleRow(r, color, ongoing) {
 function renderPrisonRow(r) {
   let barEndPx = 0;
   let s = '<div style="display:flex; align-items:center; gap:14px; padding:8px 0;">';
-  s += '<div style="width:125px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">' + r.name + '</div>';
+  s += '<div style="width:125px; flex-shrink:0; font-size:15px; color:#f5f5f2; text-align:right; font-weight:500;">' + r.name + '</div>';
   s += '<div style="display:flex; align-items:center; height:32px;">';
   s += '<div class="bar" data-name="' + r.name + '" data-info="' + tipInfo(r) + '" style="cursor:pointer; display:flex; height:32px; align-items:center;">';
+  const ongoing = r.ongoing !== false;
   const segs = [];
   if (r.jail > 0) segs.push([r.jail, 'jail']);
   if (r.free > 0) segs.push([r.free, 'free']);
+  if (r.freeAfter > 0) segs.push([r.freeAfter, 'free']);
   segs.forEach((seg, si) => {
     const w = Math.max(seg[0] * pxPerYear, 4);
     barEndPx += w;
     const isFirst = si === 0;
     const isLast = si === segs.length - 1;
-    const radius = isFirst ? '6px 0 0 6px' : (isLast ? '0 6px 6px 0' : '0');
+    const radius = isFirst ? '6px 0 0 6px' : ((isLast && !ongoing) ? '0 6px 6px 0' : '0');
     s += '<div style="width:' + w.toFixed(0) + 'px; height:32px; background:' + jailColors[seg[1]] + '; border-radius:' + radius + '; margin-right:1px;"></div>';
   });
   s += '</div>';
-  const dashW = Math.max(axisWidth - barEndPx, 0);
-  s += '<div style="width:' + dashW.toFixed(0) + 'px; height:32px; position:relative;">';
-  s += '<div style="position:absolute; top:0; left:0; right:0; border-top:2px dashed #e34948;"></div>';
-  s += '<div style="position:absolute; bottom:0; left:0; right:0; border-bottom:2px dashed #e34948;"></div>';
+  if (ongoing) {
+    const dashW = Math.max(axisWidth - barEndPx, 0);
+    s += '<div style="width:' + dashW.toFixed(0) + 'px; height:32px; position:relative;">';
+    s += '<div style="position:absolute; top:0; left:0; right:0; border-top:2px dashed #e34948;"></div>';
+    s += '<div style="position:absolute; bottom:0; left:0; right:0; border-bottom:2px dashed #e34948;"></div>';
+    s += '</div>';
+  }
   s += '</div>';
-  s += '</div>';
-  const total = r.free + r.jail;
-  s += '<span style="font-size:15px; color:#c3c2b7; margin-left:10px;">' + fmtYM(total) + '~</span>';
+  const total = r.free + r.jail + (r.freeAfter || 0);
+  s += '<span style="font-size:15px; color:#e8e7e0; margin-left:10px;">' + fmtYM(total) + (ongoing ? '~' : '') + '</span>';
   s += '</div>';
   return s;
 }
@@ -148,14 +152,14 @@ function axisRow(maxYear) {
   s += '<div style="width:125px; flex-shrink:0;"></div>';
   s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 20) + 'px;">';
   for (let yr = 0; yr <= maxYear; yr++) {
-    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#a8a6a0;">' + yr + '년</span>';
+    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf;">' + yr + '년</span>';
   }
   s += '</div></div>';
   return s;
 }
 
 const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
-const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:0; border-left:2px dashed #ffffff; opacity:0.9; pointer-events:none;"></div>';
+const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:1px; background-image:repeating-linear-gradient(to bottom, #9c9a92 0px, #9c9a92 2px, transparent 2px, transparent 4px); pointer-events:none;"></div>';
 
 document.getElementById('barList').innerHTML = avgLine + html + axisRow(axisMaxYear);
 
@@ -168,9 +172,8 @@ document.querySelectorAll('.bar').forEach(function(el){
     tip.style.display = 'block';
   });
   el.addEventListener('mousemove', function(e){
-    const rect = wrap.getBoundingClientRect();
-    tip.style.left = (e.clientX - rect.left + 14) + 'px';
-    tip.style.top = (e.clientY - rect.top - 10) + 'px';
+    tip.style.left = (e.clientX + 14) + 'px';
+    tip.style.top = (e.clientY - 10) + 'px';
   });
   el.addEventListener('mouseleave', function(){
     el.style.opacity = '1';

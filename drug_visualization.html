@@ -36,18 +36,19 @@ function parseJailDates(jailNote) {
 const sentenceLabel = {'벌금형':'벌금형', '집행유예':'징역형 집행유예', '징역형':'징역형(구속)'};
 
 const rows = [
-  {name:'가인', group:'벌금형', segs:[[2.98,'g']], dashColor:null, start:'2021-07-01', end:'2024-06-24'},
+  {name:'가인', group:'벌금형', segs:[[4.46,'g']], dashColor:null, start:'2021-07-01', end:'2025-12-17'},
   {name:'하정우', group:'벌금형', segs:[[2.56,'g']], dashColor:null, start:'2020-02-18', end:'2022-09-09'},
   {name:'최창엽', group:'집행유예', segs:[[9.76,'g']], dashColor:'#eda100', start:'2016-10-08', end:'미복귀'},
   {name:'탑(최승현)', group:'집행유예', segs:[[7.58,'g']], dashColor:null, start:'2017-06-01', end:'2024-12-26'},
-  {name:'기주봉', group:'집행유예', segs:[[0.60,'g']], dashColor:null, start:'2017-06-12', end:'2018-01-18'},
+  {name:'기주봉', group:'집행유예', segs:[[0.07,'g']], dashColor:null, start:'2017-06-12', end:'2017-07-06'},
   {name:'정석원', group:'집행유예', segs:[[0.96,'g']], dashColor:null, start:'2018-02-09', end:'2019-01-25'},
   {name:'씨잼', group:'집행유예', segs:[[0.54,'g']], dashColor:null, start:'2018-05-28', end:'2018-12-12'},
   {name:'로버트 할리', group:'집행유예', segs:[[7.26,'g']], dashColor:'#eda100', start:'2019-04-09', end:'미복귀'},
   {name:'박유천', group:'집행유예', segs:[[1.58,'g']], dashColor:null, start:'2019-04-24', end:'2020-11-19'},
   {name:'비아이', group:'집행유예', segs:[[1.86,'g']], dashColor:null, start:'2019-06-12', end:'2021-04-20'},
   {name:'정일훈', group:'집행유예', segs:[[3.40,'free','#eda100'],[0.52,'jail','#f8d9a0']], dashColor:null, start:'2020-12-21', end:'2024-11-21', jailNote:'구속 2021.06~석방(집행유예) 2021.12'},
-  {name:'휘성', group:'집행유예', segs:[[1.02,'g']], dashColor:null, start:'2020-03-26', end:'2021-04-03'},
+  {name:'휘성', group:'집행유예', segs:[[1.02,'g']], dashColor:null, start:'2020-03-26', end:'2021-04-03', deathTag:true},
+  {name:'아이언', group:'집행유예', segs:[[0.50,'g']], dashColor:null, start:'2016-03-01', end:'2016-09-01', deathTag:true},
   {name:'킬라그램', group:'집행유예', segs:[[5.36,'g']], dashColor:'#eda100', start:'2021-03-01', end:'미복귀'},
   {name:'안지석', group:'집행유예', segs:[[3.45,'g']], dashColor:'#eda100', start:'2023-01-27', end:'미복귀'},
   {name:'서민재(서은우)', group:'집행유예', segs:[[3.87,'g']], dashColor:'#eda100', start:'2022-08-26', end:'미복귀'},
@@ -56,18 +57,17 @@ const rows = [
   {name:'식케이', group:'집행유예', segs:[[2.20,'g']], dashColor:'#eda100', start:'2024-04-29', end:'미복귀'},
   {name:'돈스파이크', group:'징역형', segs:[[2.04,'free'],[1.75,'jail']], dashColor:'#e34948', start:'2022-09-27', end:'미복귀', jailNote:'구속 2023.06~만기출소 2025.03'},
   {name:'에이미', group:'징역형', segs:[[2.45,'free'],[2.42,'jail']], dashColor:'#e34948', start:'2021-08-27', end:'미복귀', jailNote:'구속 2022.03~출소 2024.08'},
-  {name:'엄상미', group:'징역형', segs:[[3.52,'free'],[0.60,'jail']], dashColor:'#e34948', start:'2022-05-26', end:'미복귀', jailNote:'구속·출소 2022.05~2023.01'},
-  {name:'윤철종', group:'비공개/미정', segs:[[8.98,'g']], dashColor:'#888780', start:'2017-07-18', end:'미복귀', sentenceOverride:'비공개'},
-  {name:'김바다', group:'비공개/미정', segs:[[0.34,'g']], dashColor:'#888780', start:'2026-03-09', end:'미복귀', sentenceOverride:'미정'}
+  {name:'윤철종', group:'집행유예', segs:[[8.98,'g']], dashColor:'#eda100', start:'2017-07-18', end:'미복귀'}
 ];
 const jailColor = {'free':'#e34948','jail':'#f7c1c1'};
-const groupColor = {'벌금형':'#2a78d6','집행유예':'#eda100','징역형':null,'비공개/미정':'#888780'};
-const squareEndGroups = ['집행유예','비공개/미정'];
+const groupColor = {'벌금형':'#2a78d6','집행유예':'#eda100','징역형':null};
+const squareEndGroups = ['집행유예'];
 const pxPerYear = 55;
 const axisMaxYear = 10;
 const axisWidth = axisMaxYear * pxPerYear;
 const labelW = 140, gapW = 14;
 const avgDur = 2.211;
+const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
 let html = '';
 
 rows.forEach((r) => {
@@ -80,7 +80,7 @@ rows.forEach((r) => {
   let barEndPx = 0;
   const squareEnd = r.dashColor && squareEndGroups.includes(r.group);
   html += '<div style="display:flex; align-items:center; gap:14px; padding:8px 0;">';
-  html += '<div style="width:140px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">' + r.name + '</div>';
+  html += '<div style="width:140px; flex-shrink:0; font-size:15px; color:#f5f5f2; text-align:right; font-weight:500;">' + r.name + '</div>';
   html += '<div style="display:flex; align-items:center; height:32px;">';
   html += '<div class="bar" data-name="' + r.name + '" data-info="' + info + '" style="cursor:pointer; display:flex; height:32px; align-items:center;">';
   r.segs.forEach((seg, si) => {
@@ -103,7 +103,7 @@ rows.forEach((r) => {
     html += '</div>';
   }
   html += '</div>';
-  html += '<span style="font-size:15px; color:#c3c2b7; margin-left:10px;">' + fmtYM(total) + (r.dashColor ? '~' : '') + '</span>';
+  html += '<span style="font-size:15px; color:#e8e7e0; margin-left:10px;">' + fmtYM(total) + (r.dashColor ? '~' : '') + (r.deathTag ? ' <span style="color:#e34948;">(사망)</span>' : '') + '</span>';
   html += '</div></div>';
 });
 
@@ -112,14 +112,13 @@ function axisRow(maxYear) {
   s += '<div style="width:140px; flex-shrink:0;"></div>';
   s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 20) + 'px;">';
   for (let yr = 0; yr <= maxYear; yr += 2) {
-    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#a8a6a0; white-space:nowrap;">' + yr + '년</span>';
+    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf; white-space:nowrap;">' + yr + '년</span>';
   }
   s += '</div></div>';
   return s;
 }
 
-const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
-const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:0; border-left:2px dashed #ffffff; opacity:0.9; pointer-events:none;"></div>';
+const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:1px; background-image:repeating-linear-gradient(to bottom, #9c9a92 0px, #9c9a92 2px, transparent 2px, transparent 4px); pointer-events:none;"></div>';
 
 document.getElementById('barList').innerHTML = avgLine + html + axisRow(axisMaxYear);
 
