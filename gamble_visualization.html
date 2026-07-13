@@ -57,7 +57,7 @@ const pxPerYear = 105;
 const axisMaxYear = 7;
 const axisWidth = axisMaxYear * pxPerYear;
 const labelW = 125, gapW = 14;
-const avgDur = 3.1003422313483915;
+// 평균은 아래에서 수감 제외로 동적 계산
 
 function fmtYM(y) {
   const totalMonths = Math.round(y * 12);
@@ -150,13 +150,23 @@ group4Undisclosed.forEach(r => html += renderSimpleRow(r, colorMap['미공개'],
 function axisRow(maxYear) {
   let s = '<div style="display:flex; align-items:center; gap:14px; padding:10px 0 2px; border-top: 0.5px solid #6a695f; margin-top: 8px;">';
   s += '<div style="width:125px; flex-shrink:0;"></div>';
-  s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 20) + 'px;">';
+  s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 40) + 'px;">';
   for (let yr = 0; yr <= maxYear; yr++) {
-    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf;">' + yr + '년</span>';
+    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf; white-space:nowrap;">' + yr + '년</span>';
   }
   s += '</div></div>';
   return s;
 }
+
+// 평균 자숙기간 = 복귀완료자의 수감(jail) 기간을 뺀 자숙기간 평균
+// - 벌금형/집행유예/미공개 복귀완료(Complete/Undisclosed): 수감 없음 → dur 그대로
+// - 징역형(prison) 복귀완료(ongoing !== undefined && ongoing === false): free + freeAfter만(jail 제외)
+const avgParts = [];
+[...group1Complete, ...group2Complete, ...group4Undisclosed].forEach(r => avgParts.push(r.dur));
+group3Prison.forEach(r => {
+  if (r.ongoing === false) avgParts.push((r.free || 0) + (r.freeAfter || 0));
+});
+const avgDur = avgParts.reduce((a, v) => a + v, 0) / avgParts.length;
 
 const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
 const avgLine = '<div style="position:absolute; left:' + avgLineLeft.toFixed(0) + 'px; top:0; bottom:26px; width:1px; background-image:repeating-linear-gradient(to bottom, #9c9a92 0px, #9c9a92 2px, transparent 2px, transparent 4px); pointer-events:none;"></div>';

@@ -32,7 +32,6 @@ const rows = [
   {name:'황영웅', group:'벌금형',          first:'2023-02-23', ret:'2023-10-28'},
   {name:'신종령', group:'징역형 집행유예', first:'2017-09-08', ret:''},
   {name:'아이언(1차)', group:'징역형 집행유예', first:'2017-03-01', death:'2021-01-25'},
-  {name:'노엘',   group:'징역형',          first:'2021-02-28', ret:'2023-06-03'},
   {name:'김창렬', group:'보도 없음',       first:'2016-09-09', ret:'2016-09-09'},
   {name:'강인',   group:'보도 없음',       first:'2017-11-17', ret:'2019-05'},
   {name:'정상수', group:'보도 없음',       first:'2018-03-23', ret:'2019-02-05'},
@@ -59,7 +58,7 @@ const returned = rows.filter(r=>!r.ongoing && !r.died);
 const avgDur = returned.reduce((a,r)=>a+r.dur,0)/returned.length;
 const avgMon = Math.round(avgDur*12);
 
-const order = ['벌금형','징역형 집행유예','징역형','보도 없음'];
+const order = ['벌금형','징역형 집행유예','보도 없음'];
 const pxPerYear = 68, axisMaxYear = 10, labelW = 100, gapW = 14, barH = 32;
 const axisWidth = axisMaxYear * pxPerYear;
 

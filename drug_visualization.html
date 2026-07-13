@@ -66,7 +66,12 @@ const pxPerYear = 55;
 const axisMaxYear = 10;
 const axisWidth = axisMaxYear * pxPerYear;
 const labelW = 140, gapW = 14;
-const avgDur = 2.211;
+// 평균 자숙기간 = 복귀완료자(미복귀·사망 제외)의 '수감(jail) 기간을 뺀' 자숙기간 평균
+const avgReturned = rows.filter(r => r.end !== '미복귀' && !r.deathTag);
+const avgDur = avgReturned.reduce((acc, r) => {
+  const nonJail = r.segs.reduce((a, s) => a + (s[1] === 'jail' ? 0 : s[0]), 0);
+  return acc + nonJail;
+}, 0) / avgReturned.length;
 const avgLineLeft = labelW + gapW + avgDur * pxPerYear;
 let html = '';
 
