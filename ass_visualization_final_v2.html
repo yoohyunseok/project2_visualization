@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://yoohyunseok.github.io/project2_visualization/ass_visualization -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>폭행 연예인 자숙기간 (형량별 구분)</title>
+<style>
+  body {
+    margin:0; color:#ffffff; min-height:100vh;
+    display:flex; justify-content:center; align-items:center;
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif;
+    background:transparent;
+  }
+  .wrap { width:100%; max-width: 1100px; margin: 0 auto; padding: 40px 24px; }
+  h3 { margin:0 0 18px; font-size:22px; font-weight:500; text-align:center; }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h2 class="sr-only">폭행 연예인 자숙기간을 형량별(벌금형·징역형 집행유예·보도 없음)로 구분한 가로 막대그래프. 기간은 년·개월로 표기하고, 진행중 사례는 위아래 점선이 축 끝까지 열린 채로 이어지며, 평균 자숙기간을 흰색 점선으로 표시합니다.</h2>
+  
+  <div id="barWrap" style="position:relative; overflow-x:auto; display:flex; justify-content:center;">
+    <div id="barList" style="min-width:900px; position:relative;"><div style="position:absolute; left:168px; top:0; bottom:28px; width:0; border-left:1px dashed #ffffff; opacity:0.9; pointer-events:none; z-index:5;"></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">씨잼</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="0" style="cursor:pointer; width:20px; height:32px; background:#2a78d6; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">3개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">황영웅</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="1" style="cursor:pointer; width:41px; height:32px; background:#2a78d6; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">7개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">신종령</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="2" style="cursor:pointer; width:601px; height:32px; background:#eda100; border-radius:6px 0 0 6px;"></div><div style="width:79px; height:32px; border-top:2px dashed #eda100; border-bottom:2px dashed #eda100; box-sizing:border-box;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">8년 10개월~</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">김창렬</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="3" style="cursor:pointer; width:27px; height:32px; background:#888780; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">5개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">강인</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="4" style="cursor:pointer; width:99px; height:32px; background:#888780; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">1년 5개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">정상수</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="5" style="cursor:pointer; width:189px; height:32px; background:#888780; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">2년 9개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">MC딩동</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="6" style="cursor:pointer; width:95px; height:32px; background:#888780; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">1년 5개월</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">임영규</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="7" style="cursor:pointer; width:622px; height:32px; background:#888780; border-radius:6px 0 0 6px;"></div><div style="width:58px; height:32px; border-top:2px dashed #888780; border-bottom:2px dashed #888780; box-sizing:border-box;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">9년 2개월~</span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">아이언</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="8" style="cursor:pointer; width:9px; height:32px; background:#888780; border-radius:6px;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">2개월 <span style="color:#e34948;">(사망)</span></span></div></div><div style="display:flex; align-items:center; gap:14px; padding:8px 0;"><div style="width:76px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">영빈</div><div style="display:flex; align-items:center; height:32px;"><div class="bar" data-i="9" style="cursor:pointer; width:229px; height:32px; background:#888780; border-radius:6px 0 0 6px;"></div><div style="width:451px; height:32px; border-top:2px dashed #888780; border-bottom:2px dashed #888780; box-sizing:border-box;"></div><span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">3년 4개월~</span></div></div><div style="display:flex; align-items:flex-start; gap:14px; padding:10px 0 2px; border-top:0.5px solid #6a695f; margin-top:8px;"><div style="width:76px; flex-shrink:0;"></div><div style="position:relative; height:20px; width:710px;"><span style="position:absolute; left:0px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">0년</span><span style="position:absolute; left:68px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">1년</span><span style="position:absolute; left:136px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">2년</span><span style="position:absolute; left:204px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">3년</span><span style="position:absolute; left:272px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">4년</span><span style="position:absolute; left:340px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">5년</span><span style="position:absolute; left:408px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">6년</span><span style="position:absolute; left:476px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">7년</span><span style="position:absolute; left:544px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">8년</span><span style="position:absolute; left:612px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">9년</span><span style="position:absolute; left:680px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">10년</span></div></div></div>
+    <div id="tip" style="position:absolute; display:none; pointer-events:none; background:#2c2c2a; border:0.5px solid #6a695f; border-radius:8px; padding:10px 14px; font-size:14px; color:#ffffff; white-space:nowrap; z-index:10; line-height:1.7;"></div>
+  </div>
+</div>
+<script>
+const NOW = new Date();
+const rows = [
+  {name:'씨잼',   group:'벌금형',          first:'2019-01-15', ret:'2019-05'},
+  {name:'황영웅', group:'벌금형',          first:'2023-02-23', ret:'2023-10'},
+  {name:'신종령', group:'징역형 집행유예', first:'2017-09-08', ret:''},
+  {name:'김창렬', group:'보도 없음',       first:'2016-09-09', ret:'2017-02'},
+  {name:'강인',   group:'보도 없음',       first:'2017-11-17', ret:'2019-05'},
+  {name:'정상수', group:'보도 없음',       first:'2018-03-23', ret:'2021-01'},
+  {name:'MC딩동', group:'보도 없음',       first:'2019-07-09', ret:'2020-12'},
+  {name:'임영규', group:'보도 없음',       first:'2017-05-17', ret:''},
+  {name:'아이언', group:'보도 없음',       first:'2020-12-10', ret:'', death:'2021-01-25'},
+  {name:'영빈',   group:'보도 없음',       first:'2023-02-26', ret:''},
+];
+const COLOR = {'벌금형':'#2a78d6','징역형 집행유예':'#eda100','보도 없음':'#888780'};
+const parse = s => { const p=s.split('-'); return new Date(+p[0],(+p[1]||1)-1,+p[2]||1); };
+const yrs = (a,b) => (b-a)/(1000*60*60*24*365.25);
+const months = (a,b) => Math.round((b-a)/(1000*60*60*24*(365.25/12)));
+const fmt = d => d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0');
+const ym = m => { const y=Math.floor(m/12), mo=m%12; if(y>0&&mo>0) return y+'년 '+mo+'개월'; if(y>0) return y+'년'; return mo+'개월'; };
+
+rows.forEach(r=>{
+  r._f = parse(r.first);
+  if(r.death){ r._end=parse(r.death); r.dur=yrs(r._f,r._end); r.mon=months(r._f,r._end); r.ongoing=false; r.died=true; }
+  else if(r.ret){ r._end=parse(r.ret); r.dur=yrs(r._f,r._end); r.mon=months(r._f,r._end); r.ongoing=false; }
+  else { r.dur=yrs(r._f,NOW); r.mon=months(r._f,NOW); r.ongoing=true; }
+});
+
+const returned = rows.filter(r=>!r.ongoing && !r.died);
+const avgDur = returned.reduce((a,r)=>a+r.dur,0)/returned.length;
+const avgMon = Math.round(avgDur*12);
+
+const order = ['벌금형','징역형 집행유예','보도 없음'];
+const pxPerYear = 68, axisMaxYear = 10, labelW = 76, gapW = 14, barH = 32;
+const axisWidth = axisMaxYear * pxPerYear;
+
+let html = '';
+order.forEach((grp)=>{
+  rows.filter(r=>r.group===grp).forEach(r=>{
+    const w = Math.max(r.dur*pxPerYear, 6);
+    const dashW = r.ongoing ? Math.max(axisWidth - w, 12) : 0;
+    let tail;
+    if(r.ongoing) tail = `${ym(r.mon)}~`;
+    else if(r.died) tail = `${ym(r.mon)} <span style="color:#e34948;">(사망)</span>`;
+    else tail = `${ym(r.mon)}`;
+    html += `<div style="display:flex; align-items:center; gap:${gapW}px; padding:8px 0;">`;
+    html += `<div style="width:${labelW}px; flex-shrink:0; font-size:15px; color:#ffffff; text-align:right;">${r.name}</div>`;
+    html += `<div style="display:flex; align-items:center; height:${barH}px;">`;
+    const radius = r.ongoing ? '6px 0 0 6px' : '6px';
+    html += `<div class="bar" data-i="${rows.indexOf(r)}" style="cursor:pointer; width:${w.toFixed(0)}px; height:${barH}px; background:${COLOR[grp]}; border-radius:${radius};"></div>`;
+    if(r.ongoing) html += `<div style="width:${dashW.toFixed(0)}px; height:${barH}px; border-top:2px dashed ${COLOR[grp]}; border-bottom:2px dashed ${COLOR[grp]}; box-sizing:border-box;"></div>`;
+    html += `<span style="font-size:15px; color:#c3c2b7; margin-left:10px; white-space:nowrap;">${tail}</span>`;
+    html += `</div></div>`;
+  });
+});
+
+let axis = `<div style="display:flex; align-items:flex-start; gap:${gapW}px; padding:10px 0 2px; border-top:0.5px solid #6a695f; margin-top:8px;">`;
+axis += `<div style="width:${labelW}px; flex-shrink:0;"></div>`;
+axis += `<div style="position:relative; height:20px; width:${axisWidth+30}px;">`;
+for(let t=0;t<=axisMaxYear;t++){
+  axis += `<span style="position:absolute; left:${t*pxPerYear}px; font-size:13px; color:#a8a6a0; transform:translateX(-50%);">${t}년</span>`;
+}
+axis += `</div></div>`;
+
+const avgLeft = labelW + gapW + avgDur*pxPerYear;
+const avgLine = `<div style="position:absolute; left:${avgLeft.toFixed(0)}px; top:0; bottom:28px; width:0; border-left:1px dashed #ffffff; opacity:0.9; pointer-events:none; z-index:5;"></div>`;
+
+document.getElementById('barList').innerHTML = avgLine + html + axis;
+
+const tip = document.getElementById('tip'), wrap = document.getElementById('barWrap');
+document.querySelectorAll('.bar').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{
+    const r = rows[+el.dataset.i];
+    el.style.opacity='0.75';
+    const custody = r.det ? fmt(parse(r.det))
+      : (r.group==='징역형 집행유예' ? '없음(집행유예)' : (r.group==='벌금형' ? '없음' : '없음'));
+    const release = r.rel ? fmt(parse(r.rel)) : '없음';
+    const back = r.died ? ('사망 ('+fmt(r._end)+')') : (r.ret ? fmt(r._end) : '미확인');
+    const sentence = r.group==='보도 없음' ? '보도 없음' : r.group;
+    tip.innerHTML = `<span style="font-weight:500;">${r.name}</span><br>최초보도: ${fmt(r._f)}<br>구속 일자: ${custody}<br>출소일: ${release}<br>복귀: ${back}<br>형량: ${sentence}`;
+    tip.style.display='block';
+  });
+  el.addEventListener('mousemove',e=>{
+    const rect = wrap.getBoundingClientRect();
+    tip.style.left = (e.clientX-rect.left+14)+'px';
+    tip.style.top = (e.clientY-rect.top-10)+'px';
+  });
+  el.addEventListener('mouseleave',()=>{ el.style.opacity='1'; tip.style.display='none'; });
+});
+</script>
+
+
+</body></html>
