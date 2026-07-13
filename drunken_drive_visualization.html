@@ -102,9 +102,9 @@ prisonRows.forEach((r) => {
 function axisRow(maxYear) {
   let s = '<div style="display:flex; align-items:center; gap:14px; padding:10px 0 2px; border-top: 0.5px solid #6a695f; margin-top: 8px;">';
   s += '<div style="width:120px; flex-shrink:0;"></div>';
-  s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 20) + 'px;">';
+  s += '<div style="position:relative; height:20px; width:' + (maxYear * pxPerYear + 40) + 'px;">';
   for (let yr = 0; yr <= maxYear; yr++) {
-    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf;">' + yr + '년</span>';
+    s += '<span style="position:absolute; left:' + (yr * pxPerYear) + 'px; font-size:13px; color:#c9c7bf; white-space:nowrap;">' + yr + '년</span>';
   }
   s += '</div></div>';
   return s;
